@@ -1,0 +1,40 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1>Master RxJS</h1>
+      <p>Learn Reactive Programming with Practical Examples and Real-world Applications</p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="container">
+    <div class="features-grid">
+      <div *ngFor="let feature of features" [routerLink]="feature.route" class="feature-card">
+        <div class="icon">{{ feature.icon }}</div>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Concepts Section -->
+  <section class="concepts-section">
+    <div class="container">
+      <h2>Key Concepts You'll Learn</h2>
+      <div class="concepts-grid">
+        <div class="concept-item" *ngFor="let concept of concepts">
+          {{ concept }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Begin Your RxJS Journey?</h2>
+      <button class="btn btn-primary" routerLink="/promise">Start Learning Now</button>
+    </div>
+  </section>
+</div>

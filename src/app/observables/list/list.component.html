@@ -1,0 +1,24 @@
+<div class="observables-list">
+  <div class="list-container">
+    <div *ngFor="let item of observablesList" 
+         class="observable-item" 
+        
+         (click)="navigateTo(item.route)">
+      <h3>
+        <i [class]="item.icon"></i>
+        {{ item.name }}
+      </h3>
+      <p class="description">{{ item.description }}</p>
+      <div class="example">{{ item.example }}</div>
+      <div class="diagram-container">
+        <div class="diagram">
+          <div *ngFor="let step of item.steps; let i = index" 
+               class="step" 
+               [class.active]="i === item.activeStep">
+            {{ step }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

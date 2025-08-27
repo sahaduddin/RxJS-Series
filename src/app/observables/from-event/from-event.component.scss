@@ -1,0 +1,404 @@
+.form-event-container {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+
+  .card {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .user-card {
+      background: white;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+
+      h5 {
+        margin: 0;
+        color: #764ABC;
+      }
+
+      p {
+        margin: 0.5rem 0 0;
+        color: #666;
+      }
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, #764ABC 0%, #4A90E2 100%);
+      color: white;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      padding: 1.5rem;
+
+      h3 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      p {
+        margin: 0.5rem 0 0;
+        opacity: 0.8;
+      }
+    }
+
+    .card-body {
+      padding: 2rem;
+    }
+  }
+
+  .form-control {
+    border-radius: 0.75rem;
+    border: 2px solid #e0e0e0;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+
+    &:focus {
+      border-color: #764ABC;
+      box-shadow: 0 0 0 0.2rem rgba(118, 74, 188, 0.15);
+      outline: none;
+    }
+
+    &.is-invalid {
+      border-color: #dc3545;
+      background-image: none;
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15);
+      }
+    }
+  }
+
+  .results-container {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    border: 2px solid #e0e0e0;
+    margin-top: 1.5rem;
+
+    h5 {
+      color: #764ABC;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .list-group {
+      border-radius: 0.75rem;
+      overflow: hidden;
+
+      .list-group-item {
+        border: 1px solid #e0e0e0;
+        padding: 1rem;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background-color: rgba(118, 74, 188, 0.05);
+        }
+
+        .text-muted {
+          color: rgba(44, 62, 80, 0.6) !important;
+        }
+      }
+    }
+  }
+
+  .drag-box {
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, #764ABC 0%, #4A90E2 100%);
+    border-radius: 1rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: move;
+    user-select: none;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+
+    &.dragging {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      opacity: 0.9;
+    }
+  }
+
+  .color-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    input[type="color"] {
+      width: 100px;
+      height: 50px;
+      padding: 0;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+
+      &::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+
+      &::-webkit-color-swatch {
+        border: none;
+        border-radius: 0.5rem;
+      }
+    }
+
+    .color-preview {
+      height: 50px;
+      flex: 1;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      font-family: monospace;
+    }
+  }
+
+  .scroll-container {
+    height: 300px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+
+    .scroll-content {
+      .user-card {
+        background: white;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+        }
+
+        h5 {
+          margin: 0;
+          color: #764ABC;
+        }
+
+        p {
+          margin: 0.5rem 0 0;
+          color: #666;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .scroll-info {
+    color: #764ABC;
+    font-weight: 500;
+  }
+
+  // Documentation Styles
+  .documentation-section {
+    .doc-section {
+      margin-bottom: 2.5rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      h4 {
+        color: #764ABC;
+        margin-bottom: 1.25rem;
+        font-size: 1.4rem;
+        font-weight: 600;
+        border-bottom: 2px solid rgba(118, 74, 188, 0.1);
+        padding-bottom: 0.5rem;
+      }
+
+      h5 {
+        color: #4A90E2;
+        margin: 1.5rem 0 1rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+
+      p {
+        color: #2c3e50;
+        line-height: 1.6;
+      }
+
+      pre {
+        background: #2d2d2d;
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        overflow-x: auto;
+
+        code {
+          color: #fff;
+          font-family: 'Roboto Mono', monospace;
+          font-size: 0.9rem;
+        }
+      }
+
+      .code-example {
+        margin: 1.5rem 0;
+      }
+
+      ul.best-practices, 
+      ul.operators-list {
+        padding-left: 1.25rem;
+        
+        li {
+          margin-bottom: 0.75rem;
+          color: #2c3e50;
+          line-height: 1.5;
+
+          code {
+            background: rgba(118, 74, 188, 0.1);
+            color: #764ABC;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+          }
+        }
+      }
+      ul.operators-list code {
+  font-weight: bold;
+  color: #333;
+}
+ul.operators-list p {
+  margin: 2px 0 10px 0;
+  font-size: 14px;
+  color: #666;
+}
+    }
+  }
+
+      p {
+        color: #444;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      code {
+        background: #f0f0f0;
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+        color: #764ABC;
+        font-family: 'Consolas', monospace;
+      }
+
+      .code-example {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+
+        pre {
+          margin: 0;
+          code {
+            display: block;
+            padding: 1rem;
+            background: #2d2d2d;
+            color: #fff;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+          }
+        }
+      }
+
+      .use-case, .pattern {
+        margin-bottom: 1.5rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        pre {
+          margin: 0.5rem 0;
+          code {
+            display: block;
+            padding: 1rem;
+            background: #2d2d2d;
+            color: #fff;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+          }
+        }
+      }
+
+      .best-practices {
+        list-style-type: none;
+        padding-left: 0;
+
+        li {
+          margin-bottom: 1rem;
+          padding-left: 1.5rem;
+          position: relative;
+
+          &:before {
+            content: "•";
+            color: #764ABC;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -0.2rem;
+          }
+
+          strong {
+            color: #4A90E2;
+            display: block;
+            margin-bottom: 0.3rem;
+          }
+        }
+      }
+
+      .operators-list {
+        list-style-type: none;
+        padding-left: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+
+        li {
+          background: #f8f9fa;
+          padding: 0.75rem;
+          border-radius: 0.5rem;
+          display: flex;
+          align-items: center;
+
+          code {
+            margin-right: 0.5rem;
+            background: #e9ecef;
+          }
+        }
+      }
+    }
+  
+

@@ -1,0 +1,325 @@
+<div class="form-event-container">
+  <!-- User Search Example -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3>User Search</h3>
+      <p class="text-muted">Real-time filtering with RxJS operators</p>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="searchForm">
+        <div class="mb-3">
+          <label for="searchInput" class="form-label">Search Users</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="searchInput" 
+            formControlName="searchInput"
+            placeholder="Search by name or email...">
+          <small class="text-muted">Instant search with debounced updates</small>
+        </div>
+      </form>
+
+      <div class="results-container mt-3">
+        <h5>Search Results</h5>
+        <div *ngIf="searchResults.length > 0" class="list-group">
+          <div 
+            *ngFor="let user of searchResults" 
+            class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between align-items-center">
+              <strong>{{ user.name }}</strong>
+              <span class="text-muted">{{ user.email }}</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="searchResults.length === 0" class="text-muted">
+          No users found
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Registration Form -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3>User Registration</h3>
+      <p class="text-muted">Real-time form validation with RxJS</p>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="name" 
+            formControlName="name"
+            placeholder="Enter your name">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input 
+            type="email" 
+            class="form-control" 
+            id="email" 
+            formControlName="email"
+            placeholder="Enter your email"
+            [class.is-invalid]="userForm.get('email')?.errors?.['invalidEmail']">
+          <div class="invalid-feedback" *ngIf="userForm.get('email')?.errors?.['invalidEmail']">
+            Please enter a valid email address
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- API Search Example -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3>API Search</h3>
+      <p class="text-muted">Live API search with debouncing</p>
+    </div>
+    <div class="card-body">
+      <div class="mb-3">
+        <label class="form-label">Search Users (JSONPlaceholder API)</label>
+        <input 
+          #searchBar
+          type="text" 
+          class="form-control" 
+          placeholder="Type to search users...">
+        <small class="text-muted">Results will appear in console</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Infinite Scroll -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3>Infinite Scroll</h3>
+      <p class="text-muted">Dynamic content loading on scroll</p>
+    </div>
+    <div class="card-body">
+      <div #scrollContainer class="scroll-container">
+        <div class="scroll-content">
+          <div class="user-card" *ngFor="let user of users">
+            <h5>{{ user.name }}</h5>
+            <p>{{ user.email }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-info mt-2">
+        Scroll Position: {{ scrollPosition }}px
+      </div>
+    </div>
+  </div>
+
+  <!-- Drag and Drop -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3>Drag and Drop</h3>
+      <p class="text-muted">Mouse event handling with RxJS</p>
+    </div>
+    <div class="card-body">
+      <div 
+        #dragBox 
+        class="drag-box" 
+        [class.dragging]="isDragging"
+        [style.transform]="'translate(' + dragPosition.x + 'px, ' + dragPosition.y + 'px)'">
+        Drag me!
+      </div>
+    </div>
+  </div>
+
+  <!-- Color Picker -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3>Color Picker</h3>
+      <p class="text-muted">Real-time color updates with fromEvent</p>
+    </div>
+    <div class="card-body">
+      <div class="color-picker-container">
+        <input 
+          #colorPicker
+          type="color" 
+          [value]="selectedColor" 
+          class="form-control form-control-color">
+        <div class="color-preview" [style.background-color]="selectedColor">
+          {{ selectedColor }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documentation -->
+  <div class="card documentation-section">
+    <div class="card-header">
+      <h3>Understanding fromEvent in RxJS</h3>
+      <p class="text-muted">Comprehensive guide to using fromEvent operator</p>
+    </div>
+    <div class="card-body">
+      <div class="doc-section">
+        <h4>What is fromEvent?</h4>
+        <p>
+          The <code>fromEvent</code> operator creates an Observable that emits events of a specific type from a specified event target.
+          It's particularly useful for handling DOM events, Node.js EventEmitter events, or any event-based system.
+        </p>
+
+        <div class="code-example">
+          <h5>Basic Syntax:</h5>
+          <pre><code>fromEvent(target: EventTargetLike, eventName: string, options?: EventListenerOptions)</code></pre>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h4>Common Use Cases</h4>
+        <div class="use-case">
+          <h5>1. DOM Events</h5>
+          <pre><code>// Click events
+fromEvent(button, 'click')
+  .subscribe(event => console.log('Button clicked!'));
+
+// Input events with debounce
+fromEvent(input, 'input')
+  .pipe(
+    debounceTime(300),
+    map(event => (event.target as HTMLInputElement).value)
+  )
+  .subscribe(value => console.log('Input:', value));</code></pre>
+        </div>
+
+        <div class="use-case">
+          <h5>2. Window Events</h5>
+          <pre><code>// Resize handling
+fromEvent(window, 'resize')
+  .pipe(
+    debounceTime(200),
+    map(() => {{ '{' }}
+      width: window.innerWidth,
+      height: window.innerHeight
+    {{ '}' }})
+  )
+  .subscribe(dimensions => console.log('Window size:', dimensions));</code></pre>
+        </div>
+
+        <div class="use-case">
+          <h5>3. Mouse Events</h5>
+          <pre><code>// Mouse movement tracking
+fromEvent(document, 'mousemove')
+  .pipe(
+    map((event: MouseEvent) => {{ '{' }}
+      x: event.clientX,
+      y: event.clientY
+    {{ '}' }})
+  )
+  .subscribe(position => console.log('Mouse position:', position));</code></pre>
+        </div>
+
+        <div class="use-case">
+          <h5>4. Keyboard Events</h5>
+          <pre><code>// Keyboard shortcuts
+fromEvent(document, 'keydown')
+  .pipe(
+    filter((event: KeyboardEvent) => 
+      event.ctrlKey && event.key === 'k'
+    )
+  )
+  .subscribe(() => console.log('Ctrl + K pressed!'));</code></pre>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h4>Best Practices</h4>
+        <ul class="best-practices">
+          <li>
+            <strong>Event Cleanup:</strong>
+            Always use <code>takeUntil</code> or unsubscribe when component is destroyed to prevent memory leaks.
+          </li>
+          <li>
+            <strong>Event Debouncing:</strong>
+            Use <code>debounceTime</code> for events that fire rapidly (scroll, resize, input).
+          </li>
+          <li>
+            <strong>Type Safety:</strong>
+            Specify event types for better TypeScript integration (<code>MouseEvent</code>, <code>KeyboardEvent</code>, etc.).
+          </li>
+          <li>
+            <strong>Error Handling:</strong>
+            Implement error handling with <code>catchError</code> operator for robust event processing.
+          </li>
+        </ul>
+      </div>
+
+      <div class="doc-section">
+        <h4>Common Patterns</h4>
+        <div class="pattern">
+          <h5>1. Event Delegation</h5>
+          <pre><code>fromEvent(parentElement, 'click')
+  .pipe(
+    filter((event: MouseEvent) => 
+      (event.target as HTMLElement).matches('.child-class')
+    )
+  )
+  .subscribe(handleChildClick);</code></pre>
+        </div>
+
+        <div class="pattern">
+          <h5>2. Multiple Event Types</h5>
+          <pre><code>merge(
+  fromEvent(element, 'mousedown'),
+  fromEvent(element, 'touchstart')
+)
+.pipe(
+  map(event => event.type)
+)
+.subscribe(type => console.log('Interaction:', type));</code></pre>
+        </div>
+
+        <div class="pattern">
+          <h5>3. Form Validation</h5>
+          <pre><code>fromEvent(form, 'input')
+  .pipe(
+    debounceTime(300),
+    map(event => {{ '{' }}
+      field: (event.target as HTMLInputElement).name,
+      value: (event.target as HTMLInputElement).value,
+      valid: (event.target as HTMLInputElement).checkValidity()
+    {{ '}' }})
+  )
+  .subscribe(validation => handleValidation(validation));</code></pre>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h4>Combining with Other Operators</h4>
+        <p>Common operator combinations with fromEvent:</p>
+        <ul class="operators-list">
+  <li>
+    <code>debounceTime</code>
+    <p>Delay processing of rapid events</p>
+  </li>
+  <li>
+    <code>distinctUntilChanged</code>
+    <p>Only emit when value changes</p>
+  </li>
+  <li>
+    <code>map</code>
+    <p>Transform event data</p>
+  </li>
+  <li>
+    <code>filter</code>
+    <p>Only process specific events</p>
+  </li>
+  <li>
+    <code>takeUntil</code>
+    <p>Handle cleanup</p>
+  </li>
+  <li>
+    <code>switchMap</code>
+    <p>Switch to new Observable based on event</p>
+  </li>
+</ul>
+
+      </div>
+    </div>
+  </div>
+</div>
