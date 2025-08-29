@@ -1,0 +1,373 @@
+<div class="subscription-container">
+  <div class="hero-section">
+    <div class="container">
+      <h1 class="page-title">
+        <i class="fas fa-link"></i>
+        RxJS Subscriptions
+      </h1>
+      <p class="page-subtitle">
+        Master the lifecycle of Observables - learn how to subscribe, manage, and clean up your data streams
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Introduction Section -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-lightbulb"></i>
+        What is a Subscription?
+      </h2>
+      <div class="explanation-card">
+        <p class="detailed-explanation">
+          A Subscription is like a <strong>magazine subscription</strong> - once you subscribe, you start receiving issues (data) 
+          until you unsubscribe or the magazine stops publishing. In RxJS, a Subscription represents the execution of an 
+          Observable and provides a way to cancel that execution to prevent memory leaks.
+        </p>
+      </div>
+    </section>
+
+    <!-- Subscription Lifecycle -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-recycle"></i>
+        Subscription Lifecycle
+      </h2>
+      <div class="lifecycle-grid">
+        <div class="lifecycle-card subscribe">
+          <div class="lifecycle-icon">
+            <i class="fas fa-play-circle"></i>
+          </div>
+          <h3>Subscribe</h3>
+          <p>Start listening to the Observable</p>
+          <div class="lifecycle-example">
+            <code>observable.subscribe()</code>
+          </div>
+        </div>
+        <div class="lifecycle-card active">
+          <div class="lifecycle-icon">
+            <i class="fas fa-satellite-dish"></i>
+          </div>
+          <h3>Receiving Data</h3>
+          <p>Observable emits values to subscriber</p>
+          <div class="lifecycle-example">
+            <code>next: (value) => {{ '{' }}...{{ '}' }}</code>
+          </div>
+        </div>
+        <div class="lifecycle-card unsubscribe">
+          <div class="lifecycle-icon">
+            <i class="fas fa-stop-circle"></i>
+          </div>
+          <h3>Unsubscribe</h3>
+          <p>Stop listening and clean up resources</p>
+          <div class="lifecycle-example">
+            <code>subscription.unsubscribe()</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Examples -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-code"></i>
+        Interactive Examples
+      </h2>
+      
+      <div class="examples-container">
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Basic Subscription</h3>
+            <button class="run-button" (click)="runExample('basic')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Creating and subscribing to an Observable
+const observable = interval(1000).pipe(
+  take(5),
+  map(value => `Value: ${{ '{' }}value + 1{{ '}' }}`)
+);
+
+const subscription = observable.subscribe({{ '{' }}
+  next: (value) => console.log(`Received: ${{ '{' }}value{{ '}' }}`),
+  complete: () => console.log("Observable completed!"),
+  error: (error) => console.log(`Error: ${{ '{' }}error{{ '}' }}`)
+{{ '}' }});</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>This creates an Observable that emits 5 values (1-5) every second, then completes. The subscription receives each value and handles completion.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Manual Unsubscribe</h3>
+            <button class="run-button" (click)="runExample('unsubscribe')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Creating a continuous Observable
+const observable = interval(500);
+
+const subscription = observable.subscribe({{ '{' }}
+  next: (value) => console.log(`Tick: ${{ '{' }}value + 1{{ '}' }}`)
+{{ '}' }});
+
+// Unsubscribe after 3 seconds to prevent memory leaks
+setTimeout(() => {{ '{' }}
+  subscription.unsubscribe();
+  console.log("🛑 Subscription unsubscribed!");
+{{ '}' }}, 3000);</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>This demonstrates manual unsubscription. Without unsubscribing, the interval would run forever, causing memory leaks.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Multiple Subscriptions</h3>
+            <button class="run-button" (click)="runExample('multiple')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Managing multiple subscriptions
+const obs1 = of('Hello', 'World');
+const obs2 = interval(1000).pipe(take(3));
+
+const sub1 = obs1.subscribe(value => 
+  console.log(`Observable 1: ${{ '{' }}value{{ '}' }}`)
+);
+
+const sub2 = obs2.subscribe(value => 
+  console.log(`Observable 2: Timer ${{ '{' }}value + 1{{ '}' }}`)
+);</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>Shows how to manage multiple subscriptions simultaneously. Each subscription operates independently.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Display -->
+      <div class="output-container" *ngIf="currentOutput">
+        <div class="output-header">
+          <h3>Live Output</h3>
+          <div class="status-indicator" [class]="subscriptionStatus">
+            <span class="status-text">{{ subscriptionStatus | titlecase }}</span>
+          </div>
+        </div>
+        <div class="output-display">
+          <pre>{{ currentOutput }}</pre>
+        </div>
+        <div class="output-controls">
+          <button class="control-button unsubscribe" (click)="unsubscribeAll()" *ngIf="subscriptionStatus === 'active'">
+            <i class="fas fa-stop"></i>
+            Unsubscribe All
+          </button>
+          <button class="control-button clear" (click)="clearOutput()">
+            <i class="fas fa-trash"></i>
+            Clear Output
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Unsubscribe? -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-exclamation-triangle"></i>
+        Why Unsubscribe?
+      </h2>
+      <div class="warning-grid">
+        <div class="warning-card memory-leak">
+          <div class="warning-icon">
+            <i class="fas fa-memory"></i>
+          </div>
+          <h3>Memory Leaks</h3>
+          <p>Unfinished subscriptions keep references in memory, causing your app to slow down over time.</p>
+        </div>
+        <div class="warning-card performance">
+          <div class="warning-icon">
+            <i class="fas fa-tachometer-alt"></i>
+          </div>
+          <h3>Performance Issues</h3>
+          <p>Multiple active subscriptions consume CPU and can make your application unresponsive.</p>
+        </div>
+        <div class="warning-card unexpected">
+          <div class="warning-icon">
+            <i class="fas fa-bug"></i>
+          </div>
+          <h3>Unexpected Behavior</h3>
+          <p>Old subscriptions might trigger actions in components that no longer exist, causing errors.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-star"></i>
+        Best Practices
+      </h2>
+      <div class="practices-grid">
+        <div class="practice-card">
+          <div class="practice-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Always Unsubscribe</h3>
+          <p>Unsubscribe in ngOnDestroy() to prevent memory leaks when components are destroyed.</p>
+          <div class="practice-code">
+            <code>ngOnDestroy() {{ '{' }} this.subscription.unsubscribe(); {{ '}' }}</code>
+          </div>
+        </div>
+        <div class="practice-card">
+          <div class="practice-icon">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <h3>Use takeUntil</h3>
+          <p>Use takeUntil operator with a destroy subject for automatic cleanup.</p>
+          <div class="practice-code">
+            <code>obs.pipe(takeUntil(this.destroy$))</code>
+          </div>
+        </div>
+        <div class="practice-card">
+          <div class="practice-icon">
+            <i class="fas fa-list"></i>
+          </div>
+          <h3>Subscription Array</h3>
+          <p>Store multiple subscriptions in an array for easy bulk unsubscription.</p>
+          <div class="practice-code">
+            <code>subscriptions.forEach(sub => sub.unsubscribe())</code>
+          </div>
+        </div>
+        <div class="practice-card">
+          <div class="practice-icon">
+            <i class="fas fa-magic"></i>
+          </div>
+          <h3>Async Pipe</h3>
+          <p>Use Angular's async pipe in templates - it handles subscription/unsubscription automatically.</p>
+          <div class="practice-code">
+            <code>{{ '{{ data$ | async }}' }}</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Common Patterns -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-puzzle-piece"></i>
+        Common Patterns
+      </h2>
+      <div class="patterns-container">
+        <div class="pattern-card">
+          <h3>Component Lifecycle Pattern</h3>
+          <div class="pattern-code">
+            <pre><code class="typescript">export class MyComponent implements OnInit, OnDestroy {{ '{' }}
+  private subscription = new Subscription();
+
+  ngOnInit() {{ '{' }}
+    this.subscription.add(
+      this.dataService.getData().subscribe(data => {{ '{' }}
+        // Handle data
+      {{ '}' }})
+    );
+  {{ '}' }}
+
+  ngOnDestroy() {{ '{' }}
+    this.subscription.unsubscribe();
+  {{ '}' }}
+{{ '}' }}</code></pre>
+          </div>
+        </div>
+
+        <div class="pattern-card">
+          <h3>TakeUntil Pattern</h3>
+          <div class="pattern-code">
+            <pre><code class="typescript">export class MyComponent implements OnInit, OnDestroy {{ '{' }}
+  private destroy$ = new Subject&lt;void&gt;();
+
+  ngOnInit() {{ '{' }}
+    this.dataService.getData()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {{ '{' }}
+        // Handle data
+      {{ '}' }});
+  {{ '}' }}
+
+  ngOnDestroy() {{ '{' }}
+    this.destroy$.next();
+    this.destroy$.complete();
+  {{ '}' }}
+{{ '}' }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Reference -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-book-open"></i>
+        Quick Reference
+      </h2>
+      <div class="reference-grid">
+        <div class="reference-card">
+          <h4>Create Subscription</h4>
+          <div class="reference-code">
+            <code>const sub = observable.subscribe()</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Unsubscribe</h4>
+          <div class="reference-code">
+            <code>subscription.unsubscribe()</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Check if Closed</h4>
+          <div class="reference-code">
+            <code>subscription.closed</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Add Subscription</h4>
+          <div class="reference-code">
+            <code>parentSub.add(childSub)</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Remove Subscription</h4>
+          <div class="reference-code">
+            <code>parentSub.remove(childSub)</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Async Pipe</h4>
+          <div class="reference-code">
+            <code>{{ '{{ observable$ | async }}' }}</code>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

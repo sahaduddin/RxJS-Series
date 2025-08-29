@@ -1,21 +1,58 @@
-<div class="observables-list">
-  <div class="list-container">
-    <div *ngFor="let item of observablesList" 
-         class="observable-item" 
-        
-         (click)="navigateTo(item.route)">
-      <h3>
-        <i [class]="item.icon"></i>
-        {{ item.name }}
-      </h3>
-      <p class="description">{{ item.description }}</p>
-      <div class="example">{{ item.example }}</div>
-      <div class="diagram-container">
-        <div class="diagram">
-          <div *ngFor="let step of item.steps; let i = index" 
-               class="step" 
-               [class.active]="i === item.activeStep">
-            {{ step }}
+<div class="observables-container">
+  <div class="hero-section">
+    <div class="container">
+      <h1 class="page-title">
+        <i class="fas fa-broadcast-tower"></i>
+        RxJS Observables
+      </h1>
+      <p class="page-subtitle">
+        Discover the power of reactive programming with RxJS Observables - streams of data that flow through time
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="categories-grid">
+      <div class="category-section" *ngFor="let category of observableCategories">
+        <div class="category-header">
+          <div class="category-icon">
+            <i [class]="category.icon"></i>
+          </div>
+          <div class="category-info">
+            <h2 class="category-title">{{ category.name }}</h2>
+            <p class="category-description">{{ category.description }}</p>
+          </div>
+        </div>
+
+        <div class="observables-grid">
+          <div class="observable-card" 
+               *ngFor="let observable of category.observables"
+               (click)="navigateTo(observable.route)">
+            <div class="card-header">
+              <h3 class="observable-name">{{ observable.name }}</h3>
+              <div class="difficulty-badge" 
+                   [style.background-color]="getDifficultyColor(observable.difficulty)">
+                {{ observable.difficulty }}
+              </div>
+            </div>
+            <p class="observable-description">{{ observable.description }}</p>
+            <div class="example-section">
+              <code class="example-code">{{ observable.example }}</code>
+            </div>
+            <div class="visual-flow">
+              <div class="flow-steps">
+                <div *ngFor="let step of observable.steps; let i = index" 
+                     class="flow-step" 
+                     [class.active]="i === observable.activeStep">
+                  {{ step }}
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span class="learn-more">
+                Learn More <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
           </div>
         </div>
       </div>

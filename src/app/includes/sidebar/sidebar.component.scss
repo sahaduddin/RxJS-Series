@@ -1,0 +1,268 @@
+// Sidebar Variables - Professional Light Theme
+$sidebar-width: 280px;
+$sidebar-width-collapsed: 60px;
+$primary-color: #764ABC;
+$secondary-color: #4A90E2;
+$light-bg: #ffffff;
+$lighter-bg: #f8f9fa;
+$text-dark: #2d3748;
+$text-primary: #764ABC;
+$text-muted: #6b7280;
+$border-color: #e2e8f0;
+$hover-bg: #f1f5f9;
+$active-bg: #ede9fe;
+$shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+// Sidebar Overlay
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: $transition;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+}
+
+// Main Sidebar
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -$sidebar-width;
+  width: $sidebar-width;
+  height: 100vh;
+  background: $light-bg;
+  border-right: 1px solid $border-color;
+  border-bottom-right-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: $shadow;
+  z-index: 999;
+  transition: $transition;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &.open {
+    left: 0;
+  }
+
+  @media (min-width: 769px) {
+    left: 0;
+    position: relative;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  }
+
+  // Custom Scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(118, 74, 188, 0.2);
+    border-radius: 3px;
+
+    &:hover {
+      background: rgba(118, 74, 188, 0.3);
+    }
+  }
+}
+
+// Sidebar Header
+.sidebar-header {
+  padding: .9rem 1rem;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .logo-icon {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.5rem;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+    }
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: $transition;
+    display: none;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      display: block;
+    }
+  }
+}
+
+// Sidebar Navigation
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0;
+
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-item {
+    margin: 0.25rem 0.75rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+    color: $text-muted;
+    text-decoration: none;
+    transition: $transition;
+    position: relative;
+    border-radius: 10px;
+    font-weight: 500;
+
+    i {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+      color: $text-muted;
+      transition: $transition;
+    }
+
+    .nav-text {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    &:hover {
+      color: $text-dark;
+      background: $hover-bg;
+      transform: translateX(4px);
+
+      i {
+        color: $primary-color;
+      }
+    }
+
+    &.active {
+      color: $text-primary;
+      background: $active-bg;
+      border: 1px solid rgba(118, 74, 188, 0.2);
+      box-shadow: 0 2px 8px rgba(118, 74, 188, 0.1);
+
+      i {
+        color: $primary-color;
+      }
+
+      .nav-text {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Sidebar Footer
+.sidebar-footer {
+  padding: 1rem 1.75rem;
+  border-top: 1px solid $border-color;
+  background: $lighter-bg;
+
+  .github-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+    color: $text-muted;
+    text-decoration: none;
+    transition: $transition;
+    border-radius: 10px;
+    font-weight: 500;
+
+    &:hover {
+      color: $text-dark;
+      background: $hover-bg;
+      transform: translateX(4px);
+
+      i {
+        color: #333;
+      }
+    }
+
+    i {
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+      transition: $transition;
+    }
+
+    .nav-text {
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+// Mobile Toggle Button - Hidden (now handled by header)
+.mobile-toggle {
+  display: none;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    max-width: $sidebar-width;
+  }
+}
+
+@media (min-width: 769px) {
+  .sidebar {
+    position: sticky;
+    top: 0;
+  }
+}

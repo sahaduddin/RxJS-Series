@@ -1,0 +1,103 @@
+<div class="interview-container">
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">
+        <i class="fas fa-crown"></i>
+        4 Years Experience - Expert Interview Questions
+      </h1>
+      <p class="page-subtitle">
+        Expert-level RxJS, Angular architecture, TypeScript, and system design questions for senior developers
+      </p>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-number">50</span>
+          <span class="stat-label">Questions</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">4</span>
+          <span class="stat-label">Categories</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">Expert</span>
+          <span class="stat-label">Level</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Overview -->
+    <div class="categories-overview">
+      <div class="category-card" *ngFor="let category of ['RxJS Expert', 'Angular Architecture', 'TypeScript Expert', 'System Design']">
+        <div class="category-header">
+          <h3>{{ category }}</h3>
+          <span class="question-count">{{ getQuestionsByCategory(category).length }} questions</span>
+        </div>
+        <div class="difficulty-distribution">
+          <div class="difficulty-item" 
+               *ngFor="let difficulty of ['easy', 'medium', 'hard']"
+               [style.background-color]="getDifficultyColor(difficulty)">
+            {{ getDifficultyCount(category, difficulty) }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Questions List -->
+    <div class="questions-section">
+      <div class="section-header">
+        <h2>
+          <i class="fas fa-brain"></i>
+          Expert Interview Questions & Answers
+        </h2>
+        <p>Advanced questions designed for senior developers and technical leads</p>
+      </div>
+
+      <div class="questions-list">
+        <div class="question-card" 
+             *ngFor="let question of questions; trackBy: trackByQuestionId"
+             [class.expanded]="expandedQuestion === question.id">
+          
+          <div class="question-header" (click)="toggleQuestion(question.id)">
+            <div class="question-meta">
+              <span class="question-number">Q{{ question.id }}</span>
+              <span class="category-badge">{{ question.category }}</span>
+              <span class="difficulty-badge" 
+                    [style.background-color]="getDifficultyColor(question.difficulty)">
+                {{ question.difficulty }}
+              </span>
+            </div>
+            <div class="question-text">
+              {{ question.question }}
+            </div>
+            <div class="expand-icon">
+              <i class="fas" 
+                 [class.fa-chevron-down]="expandedQuestion !== question.id"
+                 [class.fa-chevron-up]="expandedQuestion === question.id"></i>
+            </div>
+          </div>
+
+          <div class="answer-section" *ngIf="expandedQuestion === question.id">
+            <div class="answer-header">
+              <i class="fas fa-lightbulb"></i>
+              <span>Expert Answer</span>
+            </div>
+            <div class="answer-content">
+              {{ question.answer }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation-section">
+      <a routerLink="/interview/three-year" class="nav-button secondary">
+        <i class="fas fa-arrow-left"></i>
+        Previous: 3 Years Experience
+      </a>
+      <a routerLink="/interview" class="nav-button primary">
+        Back to Interview Levels
+        <i class="fas fa-home"></i>
+      </a>
+    </div>
+  </div>
+</div>

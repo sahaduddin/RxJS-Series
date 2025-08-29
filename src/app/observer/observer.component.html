@@ -1,0 +1,450 @@
+<div class="observer-container">
+  <div class="hero-section">
+    <div class="container">
+      <h1 class="page-title">
+        <i class="fas fa-eye"></i>
+        RxJS Observer
+      </h1>
+      <p class="page-subtitle">
+        Understand the Observer pattern - the foundation of reactive programming and how data flows through your applications
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Introduction Section -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-lightbulb"></i>
+        What is an Observer?
+      </h2>
+      <div class="explanation-card">
+        <p class="detailed-explanation">
+          An Observer is like a <strong>security guard</strong> watching a building. The guard has three main responsibilities:
+          <strong>watch for normal activity</strong> (next), <strong>handle emergencies</strong> (error), and 
+          <strong>end their shift when done</strong> (complete). In RxJS, an Observer watches an Observable and 
+          reacts to the data it receives.
+        </p>
+      </div>
+    </section>
+
+    <!-- Observer Structure -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-puzzle-piece"></i>
+        Observer Structure
+      </h2>
+      <div class="structure-grid">
+        <div class="structure-card next">
+          <div class="structure-icon">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          <h3>next(value)</h3>
+          <p>Handles each value emitted by the Observable</p>
+          <div class="structure-example">
+            <code>next: (value) => console.log(value)</code>
+          </div>
+        </div>
+        <div class="structure-card error">
+          <div class="structure-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3>error(error)</h3>
+          <p>Handles any errors that occur</p>
+          <div class="structure-example">
+            <code>error: (err) => console.error(err)</code>
+          </div>
+        </div>
+        <div class="structure-card complete">
+          <div class="structure-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3>complete()</h3>
+          <p>Called when the Observable finishes</p>
+          <div class="structure-example">
+            <code>complete: () => console.log('Done!')</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Observer vs Subscription -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-balance-scale"></i>
+        Observer vs Subscription
+      </h2>
+      <div class="comparison-container">
+        <div class="comparison-card observer-card">
+          <div class="comparison-header">
+            <i class="fas fa-eye"></i>
+            <h3>Observer</h3>
+          </div>
+          <div class="comparison-content">
+            <p><strong>What it is:</strong> The "listener" that defines how to handle data</p>
+            <p><strong>Contains:</strong> next, error, complete methods</p>
+            <p><strong>Purpose:</strong> Defines reactions to Observable events</p>
+            <div class="comparison-code">
+              <code>const observer = {{ '{' }}<br>
+              &nbsp;&nbsp;next: (x) => console.log(x),<br>
+              &nbsp;&nbsp;error: (e) => console.error(e),<br>
+              &nbsp;&nbsp;complete: () => console.log('Done')<br>
+              {{ '}' }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-card subscription-card">
+          <div class="comparison-header">
+            <i class="fas fa-link"></i>
+            <h3>Subscription</h3>
+          </div>
+          <div class="comparison-content">
+            <p><strong>What it is:</strong> The "connection" between Observable and Observer</p>
+            <p><strong>Contains:</strong> unsubscribe method and closed property</p>
+            <p><strong>Purpose:</strong> Manages the lifecycle of the observation</p>
+            <div class="comparison-code">
+              <code>const subscription = observable.subscribe(observer);<br>
+              // Later...<br>
+              subscription.unsubscribe();</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Examples -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-code"></i>
+        Interactive Examples
+      </h2>
+      
+      <div class="examples-container">
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Basic Observer</h3>
+            <button class="run-button" (click)="runExample('basic')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Creating a basic Observer
+const observer = {{ '{' }}
+  next: (value) => {{ '{' }}
+    console.log(`✅ Next: Received value ${{ '{' }}value{{ '}' }}`);
+  {{ '}' }},
+  error: (error) => {{ '{' }}
+    console.log(`❌ Error: ${{ '{' }}error{{ '}' }}`);
+  {{ '}' }},
+  complete: () => {{ '{' }}
+    console.log(`🏁 Complete: Observable finished!`);
+  {{ '}' }}
+{{ '}' }};
+
+// Using the Observer
+const observable = of(1, 2, 3);
+observable.subscribe(observer);</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>This creates an Observer with all three methods. The Observable emits values 1, 2, 3, then completes.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Error Handling</h3>
+            <button class="run-button" (click)="runExample('error')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Observer that handles errors
+const observer = {{ '{' }}
+  next: (value) => console.log(`✅ Next: ${{ '{' }}value{{ '}' }}`),
+  error: (error) => {{ '{' }}
+    console.log(`❌ Error caught: ${{ '{' }}error.message{{ '}' }}`);
+    console.log("Observer handled the error gracefully!");
+  {{ '}' }},
+  complete: () => console.log("This won't be called due to error")
+{{ '}' }};
+
+// Observable that will error
+const observable = new Observable(subscriber => {{ '{' }}
+  subscriber.next('Hello');
+  setTimeout(() => {{ '{' }}
+    subscriber.error(new Error('Something went wrong!'));
+  {{ '}' }}, 1000);
+{{ '}' }});
+
+observable.subscribe(observer);</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>Shows how the error method catches and handles errors. Once an error occurs, complete() is never called.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Multiple Observers</h3>
+            <button class="run-button" (click)="runExample('multiple')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Multiple Observers for same Observable
+const observable = interval(800).pipe(take(4));
+
+const observer1 = {{ '{' }}
+  next: (value) => console.log(`👤 Observer 1: ${{ '{' }}value{{ '}' }}`),
+  complete: () => console.log(`🏁 Observer 1: Completed`)
+{{ '}' }};
+
+const observer2 = {{ '{' }}
+  next: (value) => console.log(`👥 Observer 2: ${{ '{' }}value{{ '}' }}`),
+  complete: () => console.log(`🏁 Observer 2: Completed`)
+{{ '}' }};
+
+// Both observers get the same values
+observable.subscribe(observer1);
+observable.subscribe(observer2);</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>Multiple Observers can subscribe to the same Observable. Each gets its own copy of the emitted values.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Custom Observer Class</h3>
+            <button class="run-button" (click)="runExample('custom')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Creating a custom Observer class
+class CustomObserver {{ '{' }}
+  next(value) {{ '{' }}
+    console.log(`🎯 Custom Observer: Processing ${{ '{' }}value{{ '}' }}`);
+    console.log(`   └─ Value processed successfully!`);
+  {{ '}' }}
+  
+  error(error) {{ '{' }}
+    console.log(`🚨 Custom Observer: Error - ${{ '{' }}error{{ '}' }}`);
+  {{ '}' }}
+  
+  complete() {{ '{' }}
+    console.log(`✨ Custom Observer: All done!`);
+  {{ '}' }}
+{{ '}' }}
+
+const customObserver = new CustomObserver();
+const observable = of('Data A', 'Data B', 'Data C');
+
+observable.subscribe(customObserver);</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>You can create Observer classes for reusable observation logic. This is useful for complex data processing.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Display -->
+      <div class="output-container" *ngIf="currentOutput">
+        <div class="output-header">
+          <h3>Live Output</h3>
+          <div class="status-indicator" [class]="observerStatus">
+            <span class="status-text">{{ observerStatus | titlecase }}</span>
+          </div>
+        </div>
+        <div class="output-display">
+          <pre>{{ currentOutput }}</pre>
+        </div>
+        <div class="output-controls">
+          <button class="control-button stop" (click)="stopAllObservers()" *ngIf="observerStatus === 'active'">
+            <i class="fas fa-stop"></i>
+            Stop All Observers
+          </button>
+          <button class="control-button clear" (click)="clearOutput()">
+            <i class="fas fa-trash"></i>
+            Clear Output
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Observer Patterns -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-sitemap"></i>
+        Common Observer Patterns
+      </h2>
+      <div class="patterns-grid">
+        <div class="pattern-card">
+          <div class="pattern-icon">
+            <i class="fas fa-arrow-right"></i>
+          </div>
+          <h3>Simple Function</h3>
+          <p>Pass just a function for the next handler</p>
+          <div class="pattern-code">
+            <code>observable.subscribe(value => console.log(value))</code>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <div class="pattern-icon">
+            <i class="fas fa-list"></i>
+          </div>
+          <h3>Partial Observer</h3>
+          <p>Only implement the methods you need</p>
+          <div class="pattern-code">
+            <code>observable.subscribe({{ '{' }} next: handleValue, error: handleError {{ '}' }})</code>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <div class="pattern-icon">
+            <i class="fas fa-cog"></i>
+          </div>
+          <h3>Full Observer</h3>
+          <p>Implement all three methods for complete control</p>
+          <div class="pattern-code">
+            <code>observable.subscribe({{ '{' }} next, error, complete {{ '}' }})</code>
+          </div>
+        </div>
+        <div class="pattern-card">
+          <div class="pattern-icon">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <h3>Observer Class</h3>
+          <p>Create reusable Observer classes</p>
+          <div class="pattern-code">
+            <code>class MyObserver {{ '{' }} next() {{ '{' }}...{{ '}' }} {{ '}' }}</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-World Examples -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-globe"></i>
+        Real-World Use Cases
+      </h2>
+      <div class="use-cases-container">
+        <div class="use-case-card">
+          <div class="use-case-header">
+            <i class="fas fa-mouse-pointer"></i>
+            <h3>UI Event Handling</h3>
+          </div>
+          <div class="use-case-content">
+            <p>Handle user interactions like clicks, form inputs, and mouse movements</p>
+            <div class="use-case-code">
+              <pre><code>fromEvent(button, 'click').subscribe({{ '{' }}
+  next: (event) => handleClick(event),
+  error: (err) => showError(err)
+{{ '}' }});</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="use-case-card">
+          <div class="use-case-header">
+            <i class="fas fa-server"></i>
+            <h3>API Response Processing</h3>
+          </div>
+          <div class="use-case-content">
+            <p>Process HTTP responses, handle loading states, and manage errors</p>
+            <div class="use-case-code">
+              <pre><code>httpClient.get('/api/data').subscribe({{ '{' }}
+  next: (data) => updateUI(data),
+  error: (err) => showErrorMessage(err),
+  complete: () => hideLoadingSpinner()
+{{ '}' }});</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="use-case-card">
+          <div class="use-case-header">
+            <i class="fas fa-chart-line"></i>
+            <h3>Real-time Data Monitoring</h3>
+          </div>
+          <div class="use-case-content">
+            <p>Monitor live data streams like stock prices, chat messages, or sensor data</p>
+            <div class="use-case-code">
+              <pre><code>websocketData$.subscribe({{ '{' }}
+  next: (data) => updateChart(data),
+  error: (err) => reconnectWebSocket(),
+  complete: () => showDisconnectedMessage()
+{{ '}' }});</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Reference -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-book-open"></i>
+        Quick Reference
+      </h2>
+      <div class="reference-grid">
+        <div class="reference-card">
+          <h4>Function Observer</h4>
+          <div class="reference-code">
+            <code>obs.subscribe(x => console.log(x))</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Object Observer</h4>
+          <div class="reference-code">
+            <code>obs.subscribe({{ '{' }} next, error, complete {{ '}' }})</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Partial Observer</h4>
+          <div class="reference-code">
+            <code>obs.subscribe({{ '{' }} next, error {{ '}' }})</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Class Observer</h4>
+          <div class="reference-code">
+            <code>obs.subscribe(new MyObserver())</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Error Only</h4>
+          <div class="reference-code">
+            <code>obs.subscribe({{ '{' }} error: handleError {{ '}' }})</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Complete Only</h4>
+          <div class="reference-code">
+            <code>obs.subscribe({{ '{' }} complete: onDone {{ '}' }})</code>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,5 +1,13 @@
-<app-header></app-header>
-
-<div class="container py-4">
-  <router-outlet></router-outlet>
+<div class="app-layout">
+  <app-sidebar #sidebar (sidebarToggle)="onSidebarToggle($event)"></app-sidebar>
+  
+  <div class="main-content" [class.sidebar-open]="sidebarOpen">
+    <app-header (mobileMenuToggle)="sidebar.toggleSidebar()"></app-header>
+    
+    <div class="content-wrapper">
+      <div class="container py-2">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
 </div>

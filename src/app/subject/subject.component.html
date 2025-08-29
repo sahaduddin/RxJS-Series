@@ -1,0 +1,550 @@
+<div class="subject-container">
+  <div class="hero-section">
+    <div class="container">
+      <h1 class="page-title">
+        <i class="fas fa-broadcast-tower"></i>
+        RxJS Subjects
+      </h1>
+      <p class="page-subtitle">
+        Master the power of Subjects - special Observables that can multicast to multiple observers and act as both Observable and Observer
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Introduction Section -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-lightbulb"></i>
+        What is a Subject?
+      </h2>
+      <div class="explanation-card">
+        <p class="detailed-explanation">
+          A Subject is like a <strong>radio station</strong> - it can broadcast the same message to multiple listeners at once. 
+          Unlike regular Observables that are unicast (one-to-one), Subjects are <strong>multicast</strong> (one-to-many). 
+          They're also unique because they act as both an <strong>Observable</strong> (you can subscribe to them) and an 
+          <strong>Observer</strong> (you can send values to them).
+        </p>
+      </div>
+    </section>
+
+    <!-- Subject vs Observable -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-balance-scale"></i>
+        Subject vs Observable
+      </h2>
+      <div class="comparison-container">
+        <div class="comparison-card observable-card">
+          <div class="comparison-header">
+            <i class="fas fa-satellite"></i>
+            <h3>Observable</h3>
+          </div>
+          <div class="comparison-content">
+            <p><strong>Unicast:</strong> Each subscription gets its own execution</p>
+            <p><strong>Cold:</strong> Starts emitting when subscribed to</p>
+            <p><strong>One-way:</strong> Only emits values, can't receive them</p>
+            <div class="comparison-example">
+              <div class="flow-diagram">
+                <div class="observable-node">Observable</div>
+                <div class="arrows">
+                  <div class="arrow">→ Observer 1</div>
+                  <div class="arrow">→ Observer 2</div>
+                </div>
+                <div class="note">Separate executions</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="comparison-card subject-card">
+          <div class="comparison-header">
+            <i class="fas fa-broadcast-tower"></i>
+            <h3>Subject</h3>
+          </div>
+          <div class="comparison-content">
+            <p><strong>Multicast:</strong> All subscribers share the same execution</p>
+            <p><strong>Hot:</strong> Can emit values regardless of subscriptions</p>
+            <p><strong>Two-way:</strong> Can both emit and receive values</p>
+            <div class="comparison-example">
+              <div class="flow-diagram">
+                <div class="subject-node">Subject</div>
+                <div class="arrows">
+                  <div class="arrow">→ Observer 1</div>
+                  <div class="arrow">→ Observer 2</div>
+                  <div class="arrow">→ Observer 3</div>
+                </div>
+                <div class="note">Shared execution</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subject Types -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-layer-group"></i>
+        Types of Subjects
+      </h2>
+      <div class="types-grid">
+        <div class="type-card basic">
+          <div class="type-icon">
+            <i class="fas fa-circle"></i>
+          </div>
+          <h3>Subject</h3>
+          <p>Basic multicast Observable. New subscribers only get future values.</p>
+          <div class="type-example">
+            <code>const subject = new Subject();</code>
+          </div>
+        </div>
+        <div class="type-card behavior">
+          <div class="type-icon">
+            <i class="fas fa-memory"></i>
+          </div>
+          <h3>BehaviorSubject</h3>
+          <p>Stores current value. New subscribers immediately get the latest value.</p>
+          <div class="type-example">
+            <code>const bs = new BehaviorSubject('initial');</code>
+          </div>
+        </div>
+        <div class="type-card replay">
+          <div class="type-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <h3>ReplaySubject</h3>
+          <p>Buffers old values. New subscribers get the last N values.</p>
+          <div class="type-example">
+            <code>const rs = new ReplaySubject(3);</code>
+          </div>
+        </div>
+        <div class="type-card async">
+          <div class="type-icon">
+            <i class="fas fa-hourglass-end"></i>
+          </div>
+          <h3>AsyncSubject</h3>
+          <p>Only emits the last value when completed.</p>
+          <div class="type-example">
+            <code>const as = new AsyncSubject();</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Examples -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-code"></i>
+        Interactive Examples
+      </h2>
+      
+      <div class="examples-container">
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Basic Subject</h3>
+            <button class="run-button" (click)="runExample('basic')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Creating a basic Subject
+const subject = new Subject&lt;string&gt;();
+
+// Multiple subscribers
+const sub1 = subject.subscribe(value => 
+  console.log(`👤 Subscriber 1: ${{ '{' }}value{{ '}' }}`)
+);
+
+const sub2 = subject.subscribe(value => 
+  console.log(`👥 Subscriber 2: ${{ '{' }}value{{ '}' }}`)
+);
+
+// Emit values (both subscribers receive them)
+subject.next("Hello");
+subject.next("World");
+subject.complete();</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>Basic Subject multicasts values to all subscribers. New subscribers only receive future values, not past ones.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">BehaviorSubject</h3>
+            <button class="run-button" (click)="runExample('behavior')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// BehaviorSubject with initial value
+const behaviorSubject = new BehaviorSubject&lt;string&gt;('Start');
+
+// First subscriber gets initial value immediately
+const sub1 = behaviorSubject.subscribe(value => 
+  console.log(`👤 Subscriber 1: ${{ '{' }}value{{ '}' }}`)
+);
+
+// Emit new value
+behaviorSubject.next("First Update");
+
+// Second subscriber gets current value immediately
+const sub2 = behaviorSubject.subscribe(value => 
+  console.log(`👥 Subscriber 2: ${{ '{' }}value{{ '}' }}`)
+);
+
+behaviorSubject.next("Second Update");</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>BehaviorSubject remembers the current value. New subscribers immediately receive the latest value upon subscription.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">ReplaySubject</h3>
+            <button class="run-button" (click)="runExample('replay')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// ReplaySubject with buffer size of 3
+const replaySubject = new ReplaySubject&lt;string&gt;(3);
+
+// Emit values before any subscription
+replaySubject.next("Value 1");
+replaySubject.next("Value 2");
+replaySubject.next("Value 3");
+replaySubject.next("Value 4"); // Value 1 gets dropped
+
+// New subscriber gets last 3 values
+const sub1 = replaySubject.subscribe(value => 
+  console.log(`👤 Subscriber: ${{ '{' }}value{{ '}' }}`)
+);
+
+// Emit new value
+replaySubject.next("New Value");</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>ReplaySubject buffers the last N values. New subscribers receive all buffered values immediately upon subscription.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">AsyncSubject</h3>
+            <button class="run-button" (click)="runExample('async')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// AsyncSubject only emits on complete
+const asyncSubject = new AsyncSubject&lt;string&gt;();
+
+const sub1 = asyncSubject.subscribe(value => 
+  console.log(`👤 Subscriber 1: ${{ '{' }}value{{ '}' }}`)
+);
+
+// These values are not emitted to subscribers yet
+asyncSubject.next("First");
+asyncSubject.next("Second");
+asyncSubject.next("Last Value");
+
+// Second subscriber
+const sub2 = asyncSubject.subscribe(value => 
+  console.log(`👥 Subscriber 2: ${{ '{' }}value{{ '}' }}`)
+);
+
+// Only when completed, subscribers get the last value
+asyncSubject.complete();</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>AsyncSubject only emits the last value when the Subject completes. All subscribers get the same final value.</p>
+          </div>
+        </div>
+
+        <div class="example-card">
+          <div class="example-header">
+            <h3 class="example-title">Multicast Demo</h3>
+            <button class="run-button" (click)="runExample('multicast')" [disabled]="isRunningExample">
+              <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+              <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+              {{ isRunningExample ? 'Running...' : 'Run Example' }}
+            </button>
+          </div>
+          
+          <div class="code-section">
+            <pre><code class="javascript">// Demonstrating multicast capability
+const subject = new Subject&lt;number&gt;();
+
+// Multiple observers
+const obsA = subject.subscribe(value => 
+  console.log(`🎯 Observer A: ${{ '{' }}value{{ '}' }}`)
+);
+
+const obsB = subject.subscribe(value => 
+  console.log(`🎯 Observer B: ${{ '{' }}value{{ '}' }}`)
+);
+
+const obsC = subject.subscribe(value => 
+  console.log(`🎯 Observer C: ${{ '{' }}value{{ '}' }}`)
+);
+
+// Broadcast to all observers simultaneously
+subject.next(1);
+subject.next(2);
+subject.next(3);</code></pre>
+          </div>
+          
+          <div class="explanation-section">
+            <h4>How it works:</h4>
+            <p>Shows how Subjects can broadcast the same value to multiple observers simultaneously, demonstrating the multicast nature.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output Display -->
+      <div class="output-container" *ngIf="currentOutput">
+        <div class="output-header">
+          <h3>Live Output</h3>
+          <div class="status-indicator" [class]="subjectStatus">
+            <span class="status-text">{{ subjectStatus | titlecase }}</span>
+          </div>
+        </div>
+        <div class="output-display">
+          <pre>{{ currentOutput }}</pre>
+        </div>
+        <div class="output-controls">
+          <button class="control-button stop" (click)="stopAllSubjects()" *ngIf="subjectStatus === 'active'">
+            <i class="fas fa-stop"></i>
+            Stop All Subjects
+          </button>
+          <button class="control-button clear" (click)="clearOutput()">
+            <i class="fas fa-trash"></i>
+            Clear Output
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- When to Use Each Type -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-question-circle"></i>
+        When to Use Each Type?
+      </h2>
+      <div class="usage-grid">
+        <div class="usage-card basic">
+          <div class="usage-header">
+            <i class="fas fa-circle"></i>
+            <h3>Subject</h3>
+          </div>
+          <div class="usage-content">
+            <h4>Use when:</h4>
+            <ul>
+              <li>You need simple event broadcasting</li>
+              <li>Past values are not important</li>
+              <li>Building event buses or notification systems</li>
+            </ul>
+            <h4>Example:</h4>
+            <p>User click events, form submissions, notifications</p>
+          </div>
+        </div>
+
+        <div class="usage-card behavior">
+          <div class="usage-header">
+            <i class="fas fa-memory"></i>
+            <h3>BehaviorSubject</h3>
+          </div>
+          <div class="usage-content">
+            <h4>Use when:</h4>
+            <ul>
+              <li>You need to store current state</li>
+              <li>New subscribers need the latest value</li>
+              <li>Building state management systems</li>
+            </ul>
+            <h4>Example:</h4>
+            <p>User authentication status, current theme, shopping cart state</p>
+          </div>
+        </div>
+
+        <div class="usage-card replay">
+          <div class="usage-header">
+            <i class="fas fa-history"></i>
+            <h3>ReplaySubject</h3>
+          </div>
+          <div class="usage-content">
+            <h4>Use when:</h4>
+            <ul>
+              <li>You need to cache recent values</li>
+              <li>Late subscribers need historical data</li>
+              <li>Building audit trails or logs</li>
+            </ul>
+            <h4>Example:</h4>
+            <p>Chat message history, recent search queries, activity logs</p>
+          </div>
+        </div>
+
+        <div class="usage-card async">
+          <div class="usage-header">
+            <i class="fas fa-hourglass-end"></i>
+            <h3>AsyncSubject</h3>
+          </div>
+          <div class="usage-content">
+            <h4>Use when:</h4>
+            <ul>
+              <li>You only care about the final result</li>
+              <li>Process must complete before emitting</li>
+              <li>Building promise-like behavior</li>
+            </ul>
+            <h4>Example:</h4>
+            <p>API responses, file uploads, computation results</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Real-World Patterns -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-puzzle-piece"></i>
+        Real-World Patterns
+      </h2>
+      <div class="patterns-container">
+        <div class="pattern-card">
+          <h3>State Management</h3>
+          <div class="pattern-code">
+            <pre><code class="typescript">// Using BehaviorSubject for state management
+class UserService {{ '{' }}
+  private userSubject = new BehaviorSubject&lt;User | null&gt;(null);
+  public user$ = this.userSubject.asObservable();
+
+  login(user: User) {{ '{' }}
+    this.userSubject.next(user);
+  {{ '}' }}
+
+  logout() {{ '{' }}
+    this.userSubject.next(null);
+  {{ '}' }}
+
+  getCurrentUser(): User | null {{ '{' }}
+    return this.userSubject.value;
+  {{ '}' }}
+{{ '}' }}</code></pre>
+          </div>
+        </div>
+
+        <div class="pattern-card">
+          <h3>Event Bus</h3>
+          <div class="pattern-code">
+            <pre><code class="typescript">// Using Subject for component communication
+class EventBusService {{ '{' }}
+  private eventSubject = new Subject&lt;{{ '{' }} type: string, data: any {{ '}' }}&gt;();
+  public events$ = this.eventSubject.asObservable();
+
+  emit(type: string, data: any) {{ '{' }}
+    this.eventSubject.next({{ '{' }} type, data {{ '}' }});
+  {{ '}' }}
+
+  on(type: string) {{ '{' }}
+    return this.events$.pipe(
+      filter(event => event.type === type),
+      map(event => event.data)
+    );
+  {{ '}' }}
+{{ '}' }}</code></pre>
+          </div>
+        </div>
+
+        <div class="pattern-card">
+          <h3>Caching Service</h3>
+          <div class="pattern-code">
+            <pre><code class="typescript">// Using ReplaySubject for caching
+class DataService {{ '{' }}
+  private cache = new ReplaySubject&lt;Data[]&gt;(1);
+
+  getData(): Observable&lt;Data[]&gt; {{ '{' }}
+    if (!this.cache.observers.length) {{ '{' }}
+      this.http.get&lt;Data[]&gt;('/api/data')
+        .subscribe(data => this.cache.next(data));
+    {{ '}' }}
+    return this.cache.asObservable();
+  {{ '}' }}
+
+  refreshData() {{ '{' }}
+    this.http.get&lt;Data[]&gt;('/api/data')
+      .subscribe(data => this.cache.next(data));
+  {{ '}' }}
+{{ '}' }}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Reference -->
+    <section class="content-section">
+      <h2 class="section-title">
+        <i class="fas fa-book-open"></i>
+        Quick Reference
+      </h2>
+      <div class="reference-grid">
+        <div class="reference-card">
+          <h4>Create Subject</h4>
+          <div class="reference-code">
+            <code>const subject = new Subject();</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Emit Value</h4>
+          <div class="reference-code">
+            <code>subject.next(value);</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Subscribe</h4>
+          <div class="reference-code">
+            <code>subject.subscribe(observer);</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Complete</h4>
+          <div class="reference-code">
+            <code>subject.complete();</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>Error</h4>
+          <div class="reference-code">
+            <code>subject.error(error);</code>
+          </div>
+        </div>
+        <div class="reference-card">
+          <h4>As Observable</h4>
+          <div class="reference-code">
+            <code>subject.asObservable();</code>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

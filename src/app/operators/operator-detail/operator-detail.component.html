@@ -1,0 +1,149 @@
+<div class="operator-detail-container" *ngIf="operator">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="container">
+      <div class="breadcrumb">
+        <a routerLink="/operators" class="breadcrumb-link">
+          <i class="fas fa-arrow-left"></i> Back to Operators
+        </a>
+      </div>
+      
+      <div class="operator-header">
+        <div class="operator-icon">
+          <i [class]="getCategoryIcon(operator.category)"></i>
+        </div>
+        <div class="operator-info">
+          <h1 class="operator-name">{{ operator.name }}</h1>
+          <div class="operator-meta">
+            <span class="category-badge">{{ operator.category }}</span>
+            <span class="difficulty-badge" 
+                  [style.background-color]="getDifficultyColor(operator.difficulty)">
+              {{ operator.difficulty }}
+            </span>
+          </div>
+          <p class="operator-description">{{ operator.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="content-grid">
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Detailed Explanation -->
+        <section class="content-section">
+          <h2 class="section-title">
+            <i class="fas fa-lightbulb"></i>
+            What does {{ operator.name }} do?
+          </h2>
+          <div class="explanation-card">
+            <p class="detailed-explanation">{{ operator.detailedExplanation }}</p>
+          </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="content-section">
+          <h2 class="section-title">
+            <i class="fas fa-rocket"></i>
+            When to use {{ operator.name }}
+          </h2>
+          <div class="use-cases-grid">
+            <div class="use-case-item" *ngFor="let useCase of operator.useCases">
+              <i class="fas fa-check-circle"></i>
+              <span>{{ useCase }}</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Examples -->
+        <section class="content-section">
+          <h2 class="section-title">
+            <i class="fas fa-code"></i>
+            Live Examples
+          </h2>
+          
+          <div class="examples-container">
+            <div class="example-card" *ngFor="let example of operator.examples; let i = index">
+              <div class="example-header">
+                <h3 class="example-title">{{ example.title }}</h3>
+                <button class="run-button" 
+                        (click)="runExample(example)"
+                        [disabled]="isRunningExample">
+                  <i class="fas fa-play" *ngIf="!isRunningExample"></i>
+                  <i class="fas fa-spinner fa-spin" *ngIf="isRunningExample"></i>
+                  {{ isRunningExample ? 'Running...' : 'Run Example' }}
+                </button>
+              </div>
+              
+              <div class="code-section">
+                <pre><code class="typescript">{{ example.code }}</code></pre>
+              </div>
+              
+              <div class="explanation-section">
+                <h4>How it works:</h4>
+                <p>{{ example.explanation }}</p>
+              </div>
+              
+              <div class="output-section" *ngIf="currentOutput">
+                <h4>Output:</h4>
+                <div class="output-display">
+                  <pre>{{ currentOutput }}</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">Related Operators</h3>
+          <div class="related-operators">
+            <a *ngFor="let relatedOp of operator.relatedOperators" 
+               [routerLink]="['/operators', relatedOp]"
+               class="related-operator-link">
+              {{ relatedOp }}
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">Quick Reference</h3>
+          <div class="quick-ref">
+            <div class="ref-item">
+              <strong>Category:</strong>
+              <span>{{ operator.category }}</span>
+            </div>
+            <div class="ref-item">
+              <strong>Difficulty:</strong>
+              <span [style.color]="getDifficultyColor(operator.difficulty)">
+                {{ operator.difficulty }}
+              </span>
+            </div>
+            <div class="ref-item">
+              <strong>Returns:</strong>
+              <span>Observable</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="not-found" *ngIf="!operator">
+  <div class="container">
+    <div class="not-found-content">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h2>Operator Not Found</h2>
+      <p>The operator "{{ operatorId }}" doesn't exist or hasn't been implemented yet.</p>
+      <a routerLink="/operators" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Back to Operators
+      </a>
+    </div>
+  </div>
+</div>

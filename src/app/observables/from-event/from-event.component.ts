@@ -23,6 +23,7 @@ export class FromEventComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('hotkeyInfo') hotkeyInfo!: ElementRef;
   @ViewChild('dragBox') dragBox!: ElementRef;
   @ViewChild('colorPicker') colorPicker!: ElementRef;
+  // @ViewChild('addBtn') addBtn!: ElementRef
 
   searchForm = new FormGroup({
     searchInput: new FormControl('')
@@ -43,6 +44,8 @@ export class FromEventComponent implements OnInit, OnDestroy, AfterViewInit {
   selectedColor = '#764ABC';
   private destroy$ = new Subject<void>();
   private isBrowser: boolean;
+
+
   constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
     // Initialize drag position
     this.dragPosition = { x: 0, y: 0 };
@@ -120,8 +123,8 @@ export class FromEventComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     if (!this.isBrowser) return; // ✅ Skip everything on server
-
-    // Ensure ViewChild elements are available
+  
+       // Ensure ViewChild elements are available
     if (!this.searchBar || !this.scrollContainer || !this.dragBox || !this.colorPicker) {
       console.error('Required ViewChild elements are not initialized');
       return;
@@ -233,7 +236,9 @@ export class FromEventComponent implements OnInit, OnDestroy, AfterViewInit {
       this.userForm.reset();
     }
   }
+print(){
 
+}
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

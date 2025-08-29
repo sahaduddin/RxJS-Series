@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  // Your component logic here
+  @Output() mobileMenuToggle = new EventEmitter<void>();
+
+  toggleMobileMenu() {
+    this.mobileMenuToggle.emit();
+  }
 }

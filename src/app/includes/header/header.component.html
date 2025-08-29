@@ -1,43 +1,18 @@
 
-<nav class="navbar navbar-expand-lg">
+<header class="app-header mobile-only">
   <div class="container">
-    <a class="navbar-brand" routerLink="/home">
+    <a class="brand-link" routerLink="/home">
       <div class="logo-container">
         <span class="logo-icon">Rx</span>
         <span class="logo-text">JS Series</span>
       </div>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+    
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" aria-label="Toggle menu">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/promise" routerLinkActive="active">
-            <i class="fas fa-handshake"></i>
-            <span>Promise</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/observables/list" routerLinkActive="active">
-            <i class="fas fa-broadcast-tower"></i>
-            <span>Observables</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link github-link" href="https://github.com/ReactiveX/rxjs" target="_blank">
-            <i class="fab fa-github"></i>
-            <span>GitHub</span>
-          </a>
-        </li>
-      </ul>
-    </div>
   </div>
-</nav>
+</header>
 

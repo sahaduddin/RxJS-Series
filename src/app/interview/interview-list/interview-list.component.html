@@ -1,0 +1,129 @@
+<div class="interview-container">
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <h1 class="hero-title">
+        <i class="fas fa-user-tie"></i>
+        Interview Preparation
+      </h1>
+      <p class="hero-subtitle">
+        Master RxJS, Angular, TypeScript, and Web Development concepts with our comprehensive interview question sets
+      </p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-number">200</span>
+          <span class="stat-label">Total Questions</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">4</span>
+          <span class="stat-label">Experience Levels</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">16</span>
+          <span class="stat-label">Categories</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experience Levels Grid -->
+    <div class="levels-section">
+      <div class="section-header">
+        <h2>Choose Your Experience Level</h2>
+        <p>Select the interview preparation that matches your experience level</p>
+      </div>
+
+      <div class="levels-grid">
+        <div class="level-card" 
+             *ngFor="let level of experienceLevels"
+             [style.--accent-color]="level.color">
+          
+          <div class="card-header">
+            <div class="level-icon">
+              <i [class]="level.icon"></i>
+            </div>
+            <div class="level-info">
+              <h3 class="level-title">{{ level.title }}</h3>
+              <span class="level-subtitle">{{ level.subtitle }}</span>
+            </div>
+            <div class="difficulty-badge" [style.background-color]="level.color">
+              {{ level.difficulty }}
+            </div>
+          </div>
+
+          <div class="card-content">
+            <p class="level-description">{{ level.description }}</p>
+            
+            <div class="level-stats">
+              <div class="stat-item">
+                <i class="fas fa-question-circle"></i>
+                <span>{{ level.questionCount }} Questions</span>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-layer-group"></i>
+                <span>{{ level.categories.length }} Categories</span>
+              </div>
+            </div>
+
+            <div class="categories-preview">
+              <h4>Topics Covered:</h4>
+              <div class="category-tags">
+                <span class="category-tag" *ngFor="let category of level.categories">
+                  {{ category }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <a [routerLink]="level.route" class="start-button">
+              <span>Start Interview Prep</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+      <div class="section-header">
+        <h2>Why Choose Our Interview Preparation?</h2>
+        <p>Comprehensive, well-structured, and designed for success</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-brain"></i>
+          </div>
+          <h3>Comprehensive Coverage</h3>
+          <p>From basic concepts to advanced patterns, covering all essential topics for each experience level.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <h3>Detailed Explanations</h3>
+          <p>Each question comes with thorough explanations and practical examples to deepen your understanding.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Progressive Difficulty</h3>
+          <p>Questions are carefully structured from beginner to expert level, matching real interview scenarios.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <h3>Real-World Focus</h3>
+          <p>Questions based on actual interview experiences and practical development scenarios.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
